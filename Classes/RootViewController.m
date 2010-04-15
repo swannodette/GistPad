@@ -9,9 +9,15 @@
 #import "RootViewController.h"
 #import "DetailViewController.h"
 
+
+@interface RootViewController (private)
+- (void) loadGists;
+@end
+
+
 @implementation RootViewController
 
-@synthesize detailViewController;
+@synthesize detailViewController, gists;
 
 
 #pragma mark -
@@ -22,17 +28,28 @@
   [super viewDidLoad];
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
-  
+  [self loadGists];
+}
+
+
+- (void) loadGists
+{
+  // TODO: check if the network is available yet - David
+  // TODO: replace with real username
   [[LCURLRequest alloc] initWithURL:@"http://gist.github.com/api/v1/json/gists/swannodette"
                            delegate:self];
 }
 
+
 - (void) requestDidFinishLoading:(LCURLRequest*)request 
 {
   if (![request response]) {
-    // show modal alert that we could not load the gists
+    // TODO: show modal alert that we could not load the gists
+    NSLog(@"Could not load gists");
   } else {
-    NSArray *gists = (NSArray*)[request jsonData];
+    self.gists = [(NSDictionary*)[request jsonData] objectForKey:@"gists"];
+    NSLog(@"%@", self.gists);
+    [self.tableView reloadData];
   }
   [request autorelease];
 }
@@ -80,8 +97,11 @@
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
-  return 10;
+  if (self.gists != nil) {
+    return [self.gists count];
+  } else {
+    return 0;
+  }
 }
 
 
@@ -97,7 +117,7 @@
   }
   
   // Configure the cell.
-  cell.textLabel.text = [NSString stringWithFormat:@"Row %d", indexPath.row];
+  cell.textLabel.text = [NSString stringWithFormat:@"Gist %d", [[self.gists objectAtIndex:indexPath.row] objectForKey:@"repo"]];
   return cell;
 }
 

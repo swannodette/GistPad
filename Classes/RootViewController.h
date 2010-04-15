@@ -12,9 +12,11 @@
 @class DetailViewController;
 
 @interface RootViewController : UITableViewController <LCURLRequestDelegate> {
-    DetailViewController *detailViewController;
+  DetailViewController *detailViewController;
+  NSArray *gists;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
+@property (nonatomic, retain) NSArray *gists;
 
 @end
