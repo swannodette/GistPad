@@ -96,7 +96,7 @@
 			name = LittleComputers;
 			sourceTree = "<group>";
 		};
-		07E1E630117687CB0032C26E /* JSON.framework */ = {
+		07E1E630117687CB0032C26E /* json-framework */ = {
 			isa = PBXGroup;
 			children = (
 				07E1E631117687E20032C26E /* JSON.h */,
@@ -113,7 +113,7 @@
 				07E1E63C117687E20032C26E /* SBJsonWriter.h */,
 				07E1E63D117687E20032C26E /* SBJsonWriter.m */,
 			);
-			name = JSON.framework;
+			name = "json-framework";
 			sourceTree = "<group>";
 		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
@@ -140,7 +140,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				07E1E630117687CB0032C26E /* JSON.framework */,
+				07E1E630117687CB0032C26E /* json-framework */,
 				07E1E5E211767ED70032C26E /* LittleComputers */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,

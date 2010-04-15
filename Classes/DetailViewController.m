@@ -8,18 +8,20 @@
 
 #import "DetailViewController.h"
 #import "RootViewController.h"
+#import "LCCategories.h"
 
 
 @interface DetailViewController ()
 @property (nonatomic, retain) UIPopoverController *popoverController;
 - (void)configureView;
+- (void)showGist:(NSNumber *)gistId;
 @end
 
 
 
 @implementation DetailViewController
 
-@synthesize toolbar, popoverController, detailItem, detailDescriptionLabel;
+@synthesize toolbar, popoverController, detailItem, detailDescriptionLabel, webView;
 
 #pragma mark -
 #pragma mark Managing the detail item
@@ -28,9 +30,12 @@
  When setting the detail item, update the view and dismiss the popover controller if it's showing.
  */
 - (void)setDetailItem:(id)newDetailItem {
+  NSLog(@"set detail item %@", newDetailItem);
   if (detailItem != newDetailItem) {
     [detailItem release];
     detailItem = [newDetailItem retain];
+    
+    NSLog(@"%@", detailItem);
     
     // Update the view.
     [self configureView];
@@ -43,8 +48,7 @@
 
 
 - (void)configureView {
-  // Update the user interface for the detail item.
-  detailDescriptionLabel.text = [detailItem description];   
+  [self showGist:self.detailItem];
 }
 
 
@@ -85,12 +89,18 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
- // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
+  [self showGist:[NSNumber numberWithInt:364328]];
 }
- */
+
+- (void)showGist:(NSNumber *)gistId
+{
+  NSString *gist = @"<html><body><script src=\"http://gist.github.com/{id}.js\"></script></body></html>";
+  NSDictionary *d = [NSDictionary dictionaryWithObject:gistId forKey:@"id"];
+  [self.webView loadHTMLString:[gist template:d] baseURL:nil];
+}
 
 /*
 - (void)viewWillAppear:(BOOL)animated {

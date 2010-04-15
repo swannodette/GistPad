@@ -48,7 +48,6 @@
     NSLog(@"Could not load gists");
   } else {
     self.gists = [(NSDictionary*)[request jsonData] objectForKey:@"gists"];
-    NSLog(@"%@", self.gists);
     [self.tableView reloadData];
   }
   [request autorelease];
@@ -117,7 +116,7 @@
   }
   
   // Configure the cell.
-  cell.textLabel.text = [NSString stringWithFormat:@"Gist %d", [[self.gists objectAtIndex:indexPath.row] objectForKey:@"repo"]];
+  cell.textLabel.text = [NSString stringWithFormat:@"Gist %@", [[self.gists objectAtIndex:indexPath.row] objectForKey:@"repo"]];
   return cell;
 }
 
@@ -165,11 +164,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  /*
-   When a row is selected, set the detail view controller's detail item to the item associated with the selected row.
-   */
-  detailViewController.detailItem = [NSString stringWithFormat:@"Row %d", indexPath.row];
+  detailViewController.detailItem = [[self.gists objectAtIndex:indexPath.row] objectForKey:@"repo"];
 }
 
 
