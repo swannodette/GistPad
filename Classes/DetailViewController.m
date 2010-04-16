@@ -29,7 +29,8 @@
 /*
  When setting the detail item, update the view and dismiss the popover controller if it's showing.
  */
-- (void)setDetailItem:(id)newDetailItem {
+- (void)setDetailItem:(id)newDetailItem 
+{
   NSLog(@"set detail item %@", newDetailItem);
   if (detailItem != newDetailItem) {
     [detailItem release];
@@ -47,8 +48,19 @@
 }
 
 
-- (void)configureView {
+- (void)configureView 
+{
   [self showGist:self.detailItem];
+}
+
+
+- (IBAction)edit
+{
+  NSLog(@"edit");
+  // get the path to the latest revision of the gist
+  NSString *script = @"document.querySelectorAll";
+  NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:(NSString *)script];
+  NSLog(@"result: %@", result);
 }
 
 
@@ -129,6 +141,26 @@
   self.popoverController = nil;
 }
 
+#pragma mark -
+#pragma mark UIWebViewDelegate methods
+
+- (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
+{
+}
+
+- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+  return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)aWebView
+{
+  NSLog(@"webViewDidFinishLoad:%@", aWebView);
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)aWebView
+{
+}
 
 #pragma mark -
 #pragma mark Memory management

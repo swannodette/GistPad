@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailViewController : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+@interface DetailViewController : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIWebViewDelegate> {
   
   UIPopoverController *popoverController;
   UIToolbar *toolbar;
@@ -26,5 +26,6 @@
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 - (void)showGist:(NSNumber *)gistId;
+- (IBAction)edit;
 
 @end
