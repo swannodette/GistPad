@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LCURLRequest.h"
 
-@interface DetailViewController : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIWebViewDelegate> {
+@interface DetailViewController : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIWebViewDelegate, LCURLRequestDelegate> {
   
   UIPopoverController *popoverController;
   UIToolbar *toolbar;

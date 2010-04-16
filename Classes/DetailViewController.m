@@ -9,14 +9,13 @@
 #import "DetailViewController.h"
 #import "RootViewController.h"
 #import "LCCategories.h"
-
+#import "JSON.h"
 
 @interface DetailViewController ()
 @property (nonatomic, retain) UIPopoverController *popoverController;
 - (void)configureView;
 - (void)showGist:(NSNumber *)gistId;
 @end
-
 
 
 @implementation DetailViewController
@@ -58,11 +57,36 @@
 {
   NSLog(@"edit");
   // get the path to the latest revision of the gist
-  NSString *script = @"document.querySelectorAll";
-  NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:(NSString *)script];
-  NSLog(@"result: %@", result);
+  NSString *script = @" \
+  var metas = document.querySelectorAll('.gist-meta'); \
+  var result = []; \
+  for(var i = 0; i < metas.length; i++) { \
+    meta = metas[i]; \
+    result.push({ \
+      'raw': meta.getElementsByTagName('a')[0].href \
+    }); \
+  } \
+  JSON.stringify(result); \
+  ";
+  NSArray *rawUrls = [[self.webView stringByEvaluatingJavaScriptFromString:(NSString *)script] JSONValue];
+  [[LCURLRequest alloc] initWithURL:[[rawUrls objectAtIndex:0] objectForKey:@"raw"] 
+                           delegate:self];
 }
 
+#pragma mark -
+#pragma mark LCURLRequestDelegate methods
+
+- (void) requestDidFinishLoading:(LCURLRequest*)request
+{
+  NSString *code = [request response];
+  [request autorelease];
+}
+
+- (void) request:(LCURLRequest*)request didFailWithError:(NSError*)error
+{
+  NSLog(@"request:%@ didFailWithError:%@", request, error);
+  [request autorelease];
+}
 
 #pragma mark -
 #pragma mark Split view support
