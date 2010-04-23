@@ -20,7 +20,7 @@
 
 @implementation DetailViewController
 
-@synthesize toolbar, popoverController, detailItem, detailDescriptionLabel, webView;
+@synthesize toolbar, popoverController, detailItem, detailDescriptionLabel, webView, textView;
 
 #pragma mark -
 #pragma mark Managing the detail item
@@ -34,10 +34,6 @@
   if (detailItem != newDetailItem) {
     [detailItem release];
     detailItem = [newDetailItem retain];
-    
-    NSLog(@"%@", detailItem);
-    
-    // Update the view.
     [self configureView];
   }
   
@@ -79,6 +75,7 @@
 - (void) requestDidFinishLoading:(LCURLRequest*)request
 {
   NSString *code = [request response];
+  NSLog(@"%@", code);
   [request autorelease];
 }
 
@@ -104,7 +101,6 @@
 
 // Called when the view is shown again in the split view, invalidating the button and popover controller.
 - (void)splitViewController: (UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-  
   NSMutableArray *items = [[toolbar items] mutableCopy];
   [items removeObjectAtIndex:0];
   [toolbar setItems:items animated:YES];
@@ -117,7 +113,8 @@
 #pragma mark Rotation support
 
 // Ensure that the view controller supports rotation and that the split view can therefore show in both portrait and landscape.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
   return YES;
 }
 
@@ -126,7 +123,8 @@
 #pragma mark View lifecycle
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
   [super viewDidLoad];
   [self showGist:[NSNumber numberWithInt:364328]];
 }
@@ -184,21 +182,22 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
-}
+}ter
 
 #pragma mark -
 #pragma mark Memory management
 
-/*
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+- (void)didReceiveMemoryWarning 
+{
+  // Releases the view if it doesn't have a superview.
+  [super didReceiveMemoryWarning];
+  // Release any cached data, images, etc that aren't in use.
 }
-*/
 
-- (void)dealloc {
+- (void)dealloc 
+{
+  [textView release];
+  [webView release];
   [popoverController release];
   [toolbar release];
   

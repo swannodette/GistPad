@@ -18,13 +18,14 @@
   UILabel *detailDescriptionLabel;
   
   UIWebView *webView;
-  
+  UITextView *textView;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, retain) id detailItem;
 @property (nonatomic, retain) IBOutlet UILabel *detailDescriptionLabel;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) IBOutlet UITextView *textView;
 
 - (void)showGist:(NSNumber *)gistId;
 - (IBAction)edit;
